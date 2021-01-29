@@ -8,6 +8,7 @@ class Block {
     this.data = data;
     this.previousHash = previousHash;
     this.hash = this.calculateHash();
+    this.nonce = 0;
   }
 
   calculateHash() {
@@ -15,8 +16,20 @@ class Block {
       this.index +
         this.previousHash +
         this.timestamp +
-        JSON.stringify(this.data)
+        JSON.stringify(this.data) +
+        this.nonce
     ).toString();
+  }
+
+  mineBlock(difficulty) {
+    while (
+      this.hash.substring(0, difficulty) !== Array(difficulty + 1).join("0")
+    ) {
+      this.nonce++;
+      this.hash = this.calculateHash();
+    }
+
+    console.log("Blocked mined: ", this.hash);
   }
 }
 
@@ -24,6 +37,7 @@ class Block {
 class Blockchain {
   constructor() {
     this.chain = [this.createGenesisBlock()];
+    this.difficulty = 4;
   }
 
   // Creating first block
@@ -38,7 +52,7 @@ class Blockchain {
 
   addBlock(newBlock) {
     newBlock.previousHash = this.getLatestBlock().hash;
-    newBlock.hash = newBlock.calculateHash();
+    newBlock.mineBlock(this.difficulty);
     this.chain.push(newBlock);
   }
 
@@ -60,24 +74,9 @@ class Blockchain {
 
 let fentronCoin = new Blockchain();
 
+console.log("Mining block 1...");
 fentronCoin.addBlock(new Block(1, "30/01/2021", { amount: 4 }));
+console.log("Mining block 2...");
 fentronCoin.addBlock(new Block(2, "31/01/2021", { amount: 5 }));
+console.log("Mining block 3...");
 fentronCoin.addBlock(new Block(3, "01/02/2021", { amount: 6 }));
-
-//Verify Blockchain
-console.log("Is blockchain valid? ", fentronCoin.isChainValid());
-
-//console.log(JSON.stringify(fentronCoin, null, 4));
-
-// tampering with the blockchain
-fentronCoin.chain[1].data = { amount: 100 };
-// Re-calculating hash after tampering
-fentronCoin.chain[1].hash = fentronCoin.chain[1].calculateHash();
-
-//Verify Blockchain
-console.log(
-  "Is blockchain valid after tampering data? ",
-  fentronCoin.isChainValid()
-);
-
-//console.log(JSON.stringify(fentronCoin, null, 4));
