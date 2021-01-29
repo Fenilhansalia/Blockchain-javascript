@@ -1,0 +1,23 @@
+{
+  "name": "Blockchain-javascript",
+  "version": "1.0.0",
+  "description": "Creating a dummy blockchain mechanism in javascript.",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fenilhansalia/Blockchain-javascript.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fenilhansalia/Blockchain-javascript/issues"
+  },
+  "homepage": "https://github.com/Fenilhansalia/Blockchain-javascript#readme",
+  "dependencies": {
+    "crypto-js": "^4.0.0"
+  }
+}
